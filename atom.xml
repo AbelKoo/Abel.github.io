@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-28T06:30:30.000Z</updated>
+  <updated>2016-04-28T06:40:08.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/04/27/Django+sqlite3+apache2%E5%9C%A8%E9%98%BF%E9%87%8C%E4%BA%91Ubuntu14.04%E4%B8%8A%E7%9A%84%E9%85%8D%E7%BD%AE/"/>
     <id>http://yoursite.com/2016/04/27/Django+sqlite3+apache2在阿里云Ubuntu14.04上的配置/</id>
     <published>2016-04-27T02:50:55.000Z</published>
-    <updated>2016-04-28T06:30:30.000Z</updated>
+    <updated>2016-04-28T06:40:08.000Z</updated>
     
     <content type="html">&lt;p&gt;因为不同的版本配置不同，本文仅限在当时配置下完成的，同时也是：&lt;/p&gt;
 &lt;ul&gt;
@@ -58,6 +58,7 @@
 &lt;h2 id=&quot;建立站点配置文件&quot;&gt;&lt;a href=&quot;#建立站点配置文件&quot; class=&quot;headerlink&quot; title=&quot;建立站点配置文件&quot;&gt;&lt;/a&gt;建立站点配置文件&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cd /etc/apache2/site-available&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo nano mySite.conf&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;编写以下内容&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;VirtualHost *:80&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	#ServerName&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    DocumentRoot /home/django/mySite &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;lt;Directory /home/django/mySite&amp;gt;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Order allow,deny&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Allow from all&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;lt;/Directory&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    WSGIDaemonProcess mydjangosite processes=2 threads=15 display-name=%&amp;#123;GROUP&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    WSGIProcessGroup mydjangosite&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    WSGIScriptAlias / /home/django/mySite/apache/django.wsgi&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;/VirtualHost&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;如果要添加域名可以再ServerName 设置&lt;/p&gt;
+&lt;p&gt;如果这里使用80端口，那么在site-available文件下找到000-default.conf&lt;br&gt;修改此文件的端口。&lt;/p&gt;
 &lt;h2 id=&quot;启动站点&quot;&gt;&lt;a href=&quot;#启动站点&quot; class=&quot;headerlink&quot; title=&quot;启动站点&quot;&gt;&lt;/a&gt;启动站点&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo a2ensite mySite&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo service apache2 reload&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;这个时候就能正常访问站点了&lt;/p&gt;
 </content>
