@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-18T07:49:16.000Z</updated>
+  <updated>2016-04-28T05:56:49.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,74 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Django+sqlite3+apache2+wsgi在ubuntu14.04上搭建</title>
+    <link href="http://yoursite.com/2016/04/27/Django+sqlite3+apache2%E5%9C%A8%E9%98%BF%E9%87%8C%E4%BA%91Ubuntu14.04%E4%B8%8A%E7%9A%84%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yoursite.com/2016/04/27/Django+sqlite3+apache2在阿里云Ubuntu14.04上的配置/</id>
+    <published>2016-04-27T02:50:55.000Z</published>
+    <updated>2016-04-28T05:56:49.000Z</updated>
+    
+    <content type="html">&lt;p&gt;因为不同的版本配置不同，本文仅限在当时配置下完成的，同时也是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一、为自己的配置做个记录，&lt;/li&gt;
+&lt;li&gt;二、为同样google的童鞋做个参考，&lt;/li&gt;
+&lt;li&gt;三、也请各位大牛指点一二。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;配置&quot;&gt;&lt;a href=&quot;#配置&quot; class=&quot;headerlink&quot; title=&quot;配置&quot;&gt;&lt;/a&gt;配置&lt;/h1&gt;&lt;p&gt;1.Python 2.7.6 &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&gt;&amp;gt;python -V&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;2.Django 1.9.2&lt;br&gt;    在python命令行下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&gt;&amp;gt;import django&lt;br&gt;&gt;&amp;gt;django.VERSION&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;3.Apache2 2.4.7(Ubuntu)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&gt;&amp;gt;apache2 -V&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;4.sqlite3 3.8.2&lt;br&gt;    进入sqlite3命令行下&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&gt;&amp;gt;.v&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;安装服务器&quot;&gt;&lt;a href=&quot;#安装服务器&quot; class=&quot;headerlink&quot; title=&quot;安装服务器&quot;&gt;&lt;/a&gt;安装服务器&lt;/h1&gt;&lt;h2 id=&quot;首先更新apt&quot;&gt;&lt;a href=&quot;#首先更新apt&quot; class=&quot;headerlink&quot; title=&quot;首先更新apt&quot;&gt;&lt;/a&gt;首先更新apt&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;各种安装&quot;&gt;&lt;a href=&quot;#各种安装&quot; class=&quot;headerlink&quot; title=&quot;各种安装&quot;&gt;&lt;/a&gt;各种安装&lt;/h2&gt;&lt;p&gt;一般而言python是预装的，可以用以上的命令查看版本号。&lt;br&gt;然后安装apache2, wsgi, &lt;a href=&quot;https://www.djangoproject.com/download/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;django&lt;/a&gt;(1.6前后数据库更新语句会不同)，sqlite3，&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install apache2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install libapache2-mod-wsgi&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo pip install Django==1.9.2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install sqlite3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h1 id=&quot;设置apahce2文件夹权限&quot;&gt;&lt;a href=&quot;#设置apahce2文件夹权限&quot; class=&quot;headerlink&quot; title=&quot;设置apahce2文件夹权限&quot;&gt;&lt;/a&gt;设置apahce2文件夹权限&lt;/h1&gt;&lt;p&gt;在安装完apache2以及wsgi之后：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cd /tc/apache2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo nano apache2.conf&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;找到全选配置项：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;Directory /&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Options FollowSymLinks&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        AllowOverride None&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        #Require all denied 这个是阻止了所有的请求&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Allow from all #新增 因为我们用它作为服务器，所以允许所有的请求&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;/Directory&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h1 id=&quot;建立Django项目&quot;&gt;&lt;a href=&quot;#建立Django项目&quot; class=&quot;headerlink&quot; title=&quot;建立Django项目&quot;&gt;&lt;/a&gt;建立Django项目&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo mkdir /home/django&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo mkdir /home/django&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;我先在home文件下创建了django文件夹来存放等下我们的项目。&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cd /home/django&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;django-admin startproject mySite&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;这样我们就创建了我们的项目&lt;br&gt;&lt;img src=&quot;http://i.imgur.com/UzIWgj3.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;建立WSGI&quot;&gt;&lt;a href=&quot;#建立WSGI&quot; class=&quot;headerlink&quot; title=&quot;建立WSGI&quot;&gt;&lt;/a&gt;建立WSGI&lt;/h1&gt;&lt;h2 id=&quot;什么是wsgi&quot;&gt;&lt;a href=&quot;#什么是wsgi&quot; class=&quot;headerlink&quot; title=&quot;什么是wsgi&quot;&gt;&lt;/a&gt;什么是wsgi&lt;/h2&gt;&lt;p&gt;PythonWeb服务器网关接口（Python Web Server Gateway Interface，缩写为WSGI)是Python应用程序或框架和Web服务器之间的一种接口，已经被广泛接受, 它已基本达成它的可移植性方面的目标&lt;/p&gt;
+&lt;h2 id=&quot;在项目中建立一个wsgi&quot;&gt;&lt;a href=&quot;#在项目中建立一个wsgi&quot; class=&quot;headerlink&quot; title=&quot;在项目中建立一个wsgi&quot;&gt;&lt;/a&gt;在项目中建立一个wsgi&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo nano /home/django/apache/django.wsgi&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;编写以下内容：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;import os&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;import sys&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;path = &amp;apos;/home/django/mySite&amp;apos;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;if path not in sys.path:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    sys.path.insert(0, &amp;apos;/home/django/mySite&amp;apos;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;os.environ[&amp;apos;DJANGO_SETTINGS_MODULE&amp;apos;] = &amp;apos;mySite.settings&amp;apos;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;from django.core.wsgi import get_wsgi_application&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;application = get_wsgi_application()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;建立站点配置文件&quot;&gt;&lt;a href=&quot;#建立站点配置文件&quot; class=&quot;headerlink&quot; title=&quot;建立站点配置文件&quot;&gt;&lt;/a&gt;建立站点配置文件&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cd /etc/apache2/site-available&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo nano mySite.conf&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;编写以下内容&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;VirtualHost *:80&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	#ServerName&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    DocumentRoot /home/django/mySite &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;lt;Directory /home/django/mySite&amp;gt;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Order allow,deny&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Allow from all&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;lt;/Directory&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    WSGIDaemonProcess mydjangosite processes=2 threads=15 display-name=%&amp;#123;GROUP&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    WSGIProcessGroup mydjangosite&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    WSGIScriptAlias / /home/django/mySite/apache/django.wsgi&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;/VirtualHost&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;如果要添加域名可以再ServerName 设置&lt;/p&gt;
+&lt;h2 id=&quot;启动站点&quot;&gt;&lt;a href=&quot;#启动站点&quot; class=&quot;headerlink&quot; title=&quot;启动站点&quot;&gt;&lt;/a&gt;启动站点&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo a2ensite mysite&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo service apache2 reload&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这个时候就能正常访问站点了&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;因为不同的版本配置不同，本文仅限在当时配置下完成的，同时也是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一、为自己的配置做个记录，&lt;/li&gt;
+&lt;li&gt;二、为同样google的童鞋做个参考，&lt;/li&gt;
+&lt;li&gt;三、也请各位大牛指点一二。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;配置&quot;&gt;&lt;a 
+    
+    </summary>
+    
+      <category term="Django" scheme="http://yoursite.com/categories/Django/"/>
+    
+    
+      <category term="Django" scheme="http://yoursite.com/tags/Django/"/>
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Hexo+NexT+github搭建</title>
