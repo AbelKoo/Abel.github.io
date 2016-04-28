@@ -116,8 +116,10 @@
 &amp;gt;&amp;gt;import django&amp;gt;&amp;gt;django.VERSION
 
 3.Apache2 2.">
+<meta property="og:image" content="http://i.imgur.com/qujGgX7.png">
 <meta property="og:image" content="http://i.imgur.com/UzIWgj3.png">
-<meta property="og:updated_time" content="2016-04-28T06:40:08.000Z">
+<meta property="og:image" content="http://i.imgur.com/m0vPrzT.png">
+<meta property="og:updated_time" content="2016-04-28T07:10:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django+sqlite3+apache2+wsgi在ubuntu14.04上搭建">
 <meta name="twitter:description" content="因为不同的版本配置不同，本文仅限在当时配置下完成的，同时也是：
@@ -135,7 +137,7 @@
 &amp;gt;&amp;gt;import django&amp;gt;&amp;gt;django.VERSION
 
 3.Apache2 2.">
-<meta name="twitter:image" content="http://i.imgur.com/UzIWgj3.png">
+<meta name="twitter:image" content="http://i.imgur.com/qujGgX7.png">
 
 
 
@@ -404,8 +406,9 @@
 <h1 id="安装服务器"><a href="#安装服务器" class="headerlink" title="安装服务器"></a>安装服务器</h1><h2 id="首先更新apt"><a href="#首先更新apt" class="headerlink" title="首先更新apt"></a>首先更新apt</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
 <h2 id="各种安装"><a href="#各种安装" class="headerlink" title="各种安装"></a>各种安装</h2><p>一般而言python是预装的，可以用以上的命令查看版本号。<br>然后安装apache2, wsgi, <a href="https://www.djangoproject.com/download/" target="_blank" rel="external">django</a>(1.6前后数据库更新语句会不同)，sqlite3，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2</span><br><span class="line">sudo apt-get install libapache2-mod-wsgi</span><br><span class="line">sudo pip install Django==1.9.2</span><br><span class="line">sudo apt-get install sqlite3</span><br></pre></td></tr></table></figure></p>
 <h1 id="设置apahce2文件夹权限"><a href="#设置apahce2文件夹权限" class="headerlink" title="设置apahce2文件夹权限"></a>设置apahce2文件夹权限</h1><p>在安装完apache2以及wsgi之后：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /tc/apache2</span><br><span class="line">sudo nano apache2.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/apache2</span><br><span class="line">sudo nano apache2.conf</span><br></pre></td></tr></table></figure>
 <p>找到全选配置项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Directory /&gt;</span><br><span class="line">        Options FollowSymLinks</span><br><span class="line">        AllowOverride None</span><br><span class="line">        #Require all denied 这个是阻止了所有的请求</span><br><span class="line">        Allow from all #新增 因为我们用它作为服务器，所以允许所有的请求</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure></p>
+<p>不然在后续启动站点的时候会有：<br><img src="http://i.imgur.com/qujGgX7.png" alt=""></p>
 <h1 id="建立Django项目"><a href="#建立Django项目" class="headerlink" title="建立Django项目"></a>建立Django项目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /home/django</span><br><span class="line">sudo mkdir /home/django</span><br></pre></td></tr></table></figure>
 <p>我先在home文件下创建了django文件夹来存放等下我们的项目。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home/django</span><br><span class="line">django-admin startproject mySite</span><br></pre></td></tr></table></figure></p>
 <p>这样我们就创建了我们的项目<br><img src="http://i.imgur.com/UzIWgj3.png" alt=""></p>
@@ -417,7 +420,8 @@
 <p>如果要添加域名可以再ServerName 设置</p>
 <p>如果这里使用80端口，那么在site-available文件下找到000-default.conf<br>修改此文件的端口。</p>
 <h2 id="启动站点"><a href="#启动站点" class="headerlink" title="启动站点"></a>启动站点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo a2ensite mySite</span><br><span class="line">sudo service apache2 reload</span><br></pre></td></tr></table></figure>
-<p>这个时候就能正常访问站点了</p>
+<p>这个时候就能正常访问站点了<br><img src="http://i.imgur.com/m0vPrzT.png" alt=""></p>
+<h1 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h1><p>查看apache2 的log文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /var/log/apache2</span><br><span class="line">tail error.log</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -580,7 +584,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装服务器"><span class="nav-number">2.</span> <span class="nav-text">安装服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先更新apt"><span class="nav-number">2.1.</span> <span class="nav-text">首先更新apt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种安装"><span class="nav-number">2.2.</span> <span class="nav-text">各种安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置apahce2文件夹权限"><span class="nav-number">3.</span> <span class="nav-text">设置apahce2文件夹权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建立Django项目"><span class="nav-number">4.</span> <span class="nav-text">建立Django项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建立WSGI"><span class="nav-number">5.</span> <span class="nav-text">建立WSGI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是wsgi"><span class="nav-number">5.1.</span> <span class="nav-text">什么是wsgi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在项目中建立一个wsgi"><span class="nav-number">5.2.</span> <span class="nav-text">在项目中建立一个wsgi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立站点配置文件"><span class="nav-number">5.3.</span> <span class="nav-text">建立站点配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动站点"><span class="nav-number">5.4.</span> <span class="nav-text">启动站点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装服务器"><span class="nav-number">2.</span> <span class="nav-text">安装服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先更新apt"><span class="nav-number">2.1.</span> <span class="nav-text">首先更新apt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种安装"><span class="nav-number">2.2.</span> <span class="nav-text">各种安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置apahce2文件夹权限"><span class="nav-number">3.</span> <span class="nav-text">设置apahce2文件夹权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建立Django项目"><span class="nav-number">4.</span> <span class="nav-text">建立Django项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建立WSGI"><span class="nav-number">5.</span> <span class="nav-text">建立WSGI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是wsgi"><span class="nav-number">5.1.</span> <span class="nav-text">什么是wsgi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在项目中建立一个wsgi"><span class="nav-number">5.2.</span> <span class="nav-text">在项目中建立一个wsgi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立站点配置文件"><span class="nav-number">5.3.</span> <span class="nav-text">建立站点配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动站点"><span class="nav-number">5.4.</span> <span class="nav-text">启动站点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tips"><span class="nav-number">6.</span> <span class="nav-text">Tips</span></a></li></ol></div>
             
           </div>
         </section>
