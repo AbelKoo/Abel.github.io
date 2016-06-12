@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-06-12T07:11:18.000Z</updated>
+  <updated>2016-06-12T07:49:31.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/06/12/Android%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2016/06/12/Android单例模式/</id>
     <published>2016-06-12T06:55:55.000Z</published>
-    <updated>2016-06-12T07:11:18.000Z</updated>
+    <updated>2016-06-12T07:49:31.000Z</updated>
     
     <content type="html">&lt;p&gt;确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例&lt;/p&gt;
 &lt;h1 id=&quot;饿汉模式&quot;&gt;&lt;a href=&quot;#饿汉模式&quot; class=&quot;headerlink&quot; title=&quot;饿汉模式&quot;&gt;&lt;/a&gt;饿汉模式&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;public class Singleton{
@@ -30,10 +30,75 @@
     }
 
     public static Singleton getSingleton(){
-        return singleton
+        return singleton；
     }
 }
-&lt;/code&gt;&lt;/pre&gt;</content>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以看出Singleton类并不是通过new形式构造对象，只能通过Singleton.getSingleton()方法来获取，而这个Singleton对象是静态对象，在声明的时候就已经初始化，这就保证了Singleton对象的唯一性。&lt;/p&gt;
+&lt;h1 id=&quot;懒汉模式&quot;&gt;&lt;a href=&quot;#懒汉模式&quot; class=&quot;headerlink&quot; title=&quot;懒汉模式&quot;&gt;&lt;/a&gt;懒汉模式&lt;/h1&gt;&lt;p&gt;懒汉模式是声明一个静态对象，并且在用户第一次调用getInstance的时候初始化：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class Singleton(){
+    private static Singleton instance;
+    private Singleton(){}
+
+    public static syncronized Singleton getInstance(){
+        if(instance == null){
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在getInstance()方法中添加了synchronized关键字，也就是说getInstance是一个同步方法，这个能在多线程情况下保证单例对象的唯一性的手段。&lt;br&gt;懒汉模式的优点：单例只有在使用时才会被实例化，可以一定程度上节约资源。    缺点：第一次加载时需要及时进行实例化，第一次调用反应稍慢，最大的问题是每次调用getInstance都是进行同步，造成不必要的同步开销。这个是懒汉模式最大的问题。&lt;/p&gt;
+&lt;h1 id=&quot;DCL（Double-Check-Lock）-实现单例&quot;&gt;&lt;a href=&quot;#DCL（Double-Check-Lock）-实现单例&quot; class=&quot;headerlink&quot; title=&quot;DCL（Double Check Lock） 实现单例&quot;&gt;&lt;/a&gt;DCL（Double Check Lock） 实现单例&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;public class Singleton(){
+    private static Singleton singleton = null;
+    private Singleton(){}
+
+    public static Singleton getInstance(){
+        if(singleton == null){
+            synchronized (Singleton.class){
+                if(singleton == null){
+                    singleton = new Singleton():
+                }
+            }
+        }
+        return singleton;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;此实例getInstance方法上，可以看到getInstance方法中对singleton进行了2次判空，第一层主要是为了避免不必要的同步，第二层则是为了在singleton为null的情况下实例化。&lt;br&gt;DCL的优点：解决了懒汉中同步造成的开销，资源利用率高。    缺点：同样在第一次初始化的时候会比较慢。（据说：在高并发环境下有一点的缺陷，偶尔会失败。或者jdk低于6版本）。&lt;/p&gt;
+&lt;h1 id=&quot;静态内部类单例模式&quot;&gt;&lt;a href=&quot;#静态内部类单例模式&quot; class=&quot;headerlink&quot; title=&quot;静态内部类单例模式&quot;&gt;&lt;/a&gt;静态内部类单例模式&lt;/h1&gt;&lt;p&gt;由于DCL在某些特定的情况下回失效。所以：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class Singleton(){
+    private Singleton(){}
+
+    public static Singleton getInstance(){
+        return SingletonHolder.singleton;
+    }
+
+    //静态内部类
+    private static class SingletonHolder{
+        private static final Singleton singleton = new Singleton();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;当第一次加载Singleton类时并不会初始化singleton，只有在第一次调用getInstance的方法时才会导致singleton被初始化。保证线程的安全，也能保证单例的唯一性，同时也节约资源。&lt;/p&gt;
+&lt;h1 id=&quot;枚举单例&quot;&gt;&lt;a href=&quot;#枚举单例&quot; class=&quot;headerlink&quot; title=&quot;枚举单例&quot;&gt;&lt;/a&gt;枚举单例&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;public enum Singleton{
+    INSTANCE;
+    public void doSomething(){}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在java中枚举和普通类一样，能有拥有字段，还能拥有自己的方法。但重点是默认的枚举实例的创建是线程安全的，并且任何情况下它都是单例的。&lt;/p&gt;
+&lt;h1 id=&quot;使用容器实现单例&quot;&gt;&lt;a href=&quot;#使用容器实现单例&quot; class=&quot;headerlink&quot; title=&quot;使用容器实现单例&quot;&gt;&lt;/a&gt;使用容器实现单例&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;public class Singleton{
+    private static Map&amp;lt;String, Object&amp;gt; objMap = new HashMap&amp;lt;String, Object&amp;gt;();
+
+    private SingletonManaget(){}
+
+    public static void registerService(String key, Object singleton){
+        if(!obgMap.containsKey(key)){
+            objMao.put(key, singleton);
+        }
+    }
+
+    public static Object getService(String key){
+        return objMap.get(key);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;次单例模式，在程序初始的时候将多种单例类型注入到一个统一的管理类中，在使用时更具不同的key获取对应对象，这种方式使得我们可以管理多种类型的单例，并且在使用时可以通过统一的接口进行获取操作，降低用户的使用成本，隐藏了具体的实现方法，降低耦合度。&lt;/p&gt;
+</content>
     
     <summary type="html">
     
