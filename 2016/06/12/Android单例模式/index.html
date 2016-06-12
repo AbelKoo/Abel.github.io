@@ -69,8 +69,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="A Developer" type="application/atom+xml" />
 
@@ -85,33 +83,36 @@
 
 
 <meta name="description" content="确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例
-饿汉模式‘’’javapublic class Singleton{    private static final Singleton singleton = Singleton();
-private Singleton(){
-}
+饿汉模式public class Singleton{
+    private static final Singleton singleton = Singleton();
 
-public static Singleton getSingleton(){
-    retur">
+    private Singleton(){
+    }
+
+    public static Singleton getSingleton(){">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 单例模式">
 <meta property="og:url" content="http://yoursite.com/2016/06/12/Android单例模式/index.html">
 <meta property="og:site_name" content="A Developer">
 <meta property="og:description" content="确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例
-饿汉模式‘’’javapublic class Singleton{    private static final Singleton singleton = Singleton();
-private Singleton(){
-}
+饿汉模式public class Singleton{
+    private static final Singleton singleton = Singleton();
 
-public static Singleton getSingleton(){
-    retur">
-<meta property="og:updated_time" content="2016-06-12T07:08:08.000Z">
+    private Singleton(){
+    }
+
+    public static Singleton getSingleton(){">
+<meta property="og:updated_time" content="2016-06-12T07:11:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 单例模式">
 <meta name="twitter:description" content="确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例
-饿汉模式‘’’javapublic class Singleton{    private static final Singleton singleton = Singleton();
-private Singleton(){
-}
+饿汉模式public class Singleton{
+    private static final Singleton singleton = Singleton();
 
-public static Singleton getSingleton(){
-    retur">
+    private Singleton(){
+    }
+
+    public static Singleton getSingleton(){">
 
 
 
@@ -356,15 +357,17 @@ public static Singleton getSingleton(){
 
       
         <p>确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例</p>
-<h1 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h1><p>‘’’java<br>public class Singleton{<br>    private static final Singleton singleton = Singleton();</p>
-<pre><code>private Singleton(){
-}
+<h1 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h1><pre><code>public class Singleton{
+    private static final Singleton singleton = Singleton();
 
-public static Singleton getSingleton(){
-    return singleton
-}
-</code></pre><p>}<br>‘’’</p>
+    private Singleton(){
+    }
 
+    public static Singleton getSingleton(){
+        return singleton
+    }
+}
+</code></pre>
       
     </div>
     

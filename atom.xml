@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-06-12T07:08:08.000Z</updated>
+  <updated>2016-06-12T07:11:18.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,23 +20,25 @@
     <link href="http://yoursite.com/2016/06/12/Android%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2016/06/12/Android单例模式/</id>
     <published>2016-06-12T06:55:55.000Z</published>
-    <updated>2016-06-12T07:08:08.000Z</updated>
+    <updated>2016-06-12T07:11:18.000Z</updated>
     
     <content type="html">&lt;p&gt;确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例&lt;/p&gt;
-&lt;h1 id=&quot;饿汉模式&quot;&gt;&lt;a href=&quot;#饿汉模式&quot; class=&quot;headerlink&quot; title=&quot;饿汉模式&quot;&gt;&lt;/a&gt;饿汉模式&lt;/h1&gt;&lt;p&gt;‘’’java&lt;br&gt;public class Singleton{&lt;br&gt;    private static final Singleton singleton = Singleton();&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;private Singleton(){
-}
+&lt;h1 id=&quot;饿汉模式&quot;&gt;&lt;a href=&quot;#饿汉模式&quot; class=&quot;headerlink&quot; title=&quot;饿汉模式&quot;&gt;&lt;/a&gt;饿汉模式&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;public class Singleton{
+    private static final Singleton singleton = Singleton();
 
-public static Singleton getSingleton(){
-    return singleton
+    private Singleton(){
+    }
+
+    public static Singleton getSingleton(){
+        return singleton
+    }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;}&lt;br&gt;‘’’&lt;/p&gt;
-</content>
+&lt;/code&gt;&lt;/pre&gt;</content>
     
     <summary type="html">
     
       &lt;p&gt;确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例&lt;/p&gt;
-&lt;h1 id=&quot;饿汉模式&quot;&gt;&lt;a href=&quot;#饿汉模式&quot; class=&quot;headerlink&quot; title=&quot;饿汉模式&quot;&gt;&lt;/a&gt;饿汉模式&lt;/h1&gt;&lt;p&gt;‘’’java&lt;br&gt;public clas
+&lt;h1 id=&quot;饿汉模式&quot;&gt;&lt;a href=&quot;#饿汉模式&quot; class=&quot;headerlink&quot; title=&quot;饿汉模式&quot;&gt;&lt;/a&gt;饿汉模式&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;public class S
     
     </summary>
     
